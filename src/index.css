@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #071914;
+    color: #f1f5f9;
+    overflow-x: hidden;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tactile Balatro-inspired card & edition shaders */
+@keyframes shimmer-foil {
+  0% { background-position: -150% 0; }
+  100% { background-position: 250% 0; }
+}
+
+@keyframes holo-shift {
+  0% { filter: hue-rotate(0deg) saturate(1.2); }
+  50% { filter: hue-rotate(45deg) saturate(1.4); }
+  100% { filter: hue-rotate(0deg) saturate(1.2); }
+}
+
+@keyframes score-pop {
+  0% { transform: scale(0.7) translateY(8px); opacity: 0; }
+  35% { transform: scale(1.15) translateY(-4px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.edition-foil {
+  background-image: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0) 25%,
+    rgba(147, 197, 253, 0.45) 45%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(147, 197, 253, 0.45) 55%,
+    rgba(255, 255, 255, 0) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-foil 3.6s ease-in-out infinite;
+}
+
+.edition-holo {
+  background-image: linear-gradient(
+    125deg,
+    rgba(244, 63, 94, 0.25),
+    rgba(168, 85, 247, 0.25),
+    rgba(59, 130, 246, 0.25),
+    rgba(16, 185, 129, 0.25)
+  );
+  animation: holo-shift 4s ease-in-out infinite;
+}
+
+.edition-polychrome {
+  background-image: conic-gradient(
+    from 45deg,
+    rgba(244, 63, 94, 0.28),
+    rgba(245, 158, 11, 0.28),
+    rgba(16, 185, 129, 0.28),
+    rgba(59, 130, 246, 0.28),
+    rgba(168, 85, 247, 0.28),
+    rgba(244, 63, 94, 0.28)
+  );
+  animation: holo-shift 3s linear infinite;
+}
+
+@keyframes boss-swirl-slow {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.08); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes boss-swirl-reverse {
+  0% { transform: rotate(360deg) scale(1.05); }
+  50% { transform: rotate(180deg) scale(0.98); }
+  100% { transform: rotate(0deg) scale(1.05); }
+}
+
+@keyframes boss-vignette-pulse {
+  0%, 100% { opacity: 0.48; }
+  50% { opacity: 0.82; }
+}
+
+@keyframes debuff-mote-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.22; }
+  50% { transform: translate3d(-24px, -18px, 0) scale(1.06); opacity: 0.42; }
+  100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.22; }
+}
+
+.animate-boss-swirl {
+  animation: boss-swirl-slow 32s linear infinite;
+}
+
+.animate-boss-swirl-reverse {
+  animation: boss-swirl-reverse 42s linear infinite;
+}
+
+.animate-boss-vignette {
+  animation: boss-vignette-pulse 4.4s ease-in-out infinite;
+}
+
+.animate-debuff-drift {
+  animation: debuff-mote-drift 10s ease-in-out infinite;
+}
+
+.animate-score-pop {
+  animation: score-pop 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edition-foil,
+  .edition-holo,
+  .edition-polychrome,
+  .animate-score-pop,
+  .animate-boss-swirl,
+  .animate-boss-swirl-reverse,
+  .animate-boss-vignette,
+  .animate-debuff-drift {
+    animation: none !important;
+  }
+}
+
+/* Custom sleek dark scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
