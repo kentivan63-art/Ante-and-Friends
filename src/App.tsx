@@ -38,6 +38,7 @@ import { LobbyScreen } from './components/LobbyScreen';
 import { RunInfoModal } from './components/RunInfoModal';
 import { sound } from './utils/sound';
 import { getJokerSynergySummary } from './utils/jokerHelper';
+import { getWebSocketUrl } from './utils/platform';
 
 interface ScoringPlaybackState {
   handEval: HandEvaluationResult;
@@ -208,8 +209,12 @@ export default function App() {
   const connectWebSocket = useCallback(() => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) return;
 
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
+    const wsUrl = getWebSocketUrl();
+    if (!wsUrl) {
+      setErrorMsg('No server URL configured for mobile build. Set VITE_BACKEND_URL before syncing.');
+      return;
+    }
+    const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -299,12 +304,15 @@ export default function App() {
         sound.unlockAndStartMusic();
       }
       window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('touchstart', unlock);
       window.removeEventListener('keydown', unlock);
     };
     window.addEventListener('pointerdown', unlock, { passive: true });
+    window.addEventListener('touchstart', unlock, { passive: true });
     window.addEventListener('keydown', unlock, { passive: true });
     return () => {
       window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('touchstart', unlock);
       window.removeEventListener('keydown', unlock);
     };
   }, []);
