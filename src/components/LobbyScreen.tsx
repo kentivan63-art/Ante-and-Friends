@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Copy, Check, Users, Swords, Trophy, Play } from 'lucide-react';
 import { GameMode, RoomPublicState, RoomSettings } from '../../shared/types';
+import { getInviteShareText } from '../utils/platform';
 
 interface LobbyScreenProps {
   initialRoomCode: string;
@@ -37,8 +38,8 @@ export const LobbyScreen: React.FC<LobbyScreenProps> = ({
 
   const handleCopyInvite = () => {
     if (!room) return;
-    const url = `${window.location.origin}?room=${room.roomCode}`;
-    navigator.clipboard?.writeText(url).catch(() => {});
+    const shareText = getInviteShareText(room.roomCode);
+    navigator.clipboard?.writeText(shareText).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
